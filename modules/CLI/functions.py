@@ -1,7 +1,26 @@
 import sys
 import os
+import shlex
 
-from modules.CLI import Colortext
+from modules.Commands import run_command, InputCommand, close
+
+from .color_text import Colortext
+from .ascii import ASCII
+
+
+def run():
+    """
+    Run the CLI.
+    """
+    console_clear()
+    display_title()
+    try:
+        while True:
+            command, *arguments = shlex.split(input(">> "))
+            run_command(InputCommand(command, arguments))
+    except KeyboardInterrupt:
+        print()
+        close()
 
 
 def console_clear() -> None:
@@ -19,6 +38,4 @@ def display_title():
     print(Colortext('Author: ').bold() + 'Yoann "Fxxx" Renard')
     print(Colortext('License: ').bold() + 'MIT')
     print(Colortext('Github: ').bold() + 'https://github.com/Yoann-Renard/FoXploit' + '\n')
-    print(Colortext(ASCII.fox_side).orange() + '\n')
-
 
